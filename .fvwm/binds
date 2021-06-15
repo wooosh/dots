@@ -1,0 +1,47 @@
+# Ignore the "Numlock" key so it does not interfere with keyboard shortcuts
+#
+IgnoreModifiers L2
+
+# Ctrl+Alt virtual desktop navigation
+#
+Key Up A CM           Scroll -100000 0
+Key Down A CM         Scroll  100000 0
+Key Page_Up A CM      Scroll -100000 0
+Key Page_Down A CM    Scroll  100000 0
+
+# Ctrl+Alt program shortcuts
+#
+Key C A CM            Exec exec xclock
+Key K A CM            Close
+Key M A CM            Menu RootMenu Nop
+Key R A CM            Restart
+Key T A CM            Exec exec x-terminal-emulator || xterm
+
+Key S A 4S Exec scrot
+Key R A 4S Restart
+Key Tab A 4 Menu Window-Ops Minimize
+
+# Simple default mouse bindings for the root window:
+#
+Mouse 1	R A           Menu RootMenu Nop
+Mouse 2	R A           Menu Window-Ops Nop
+Mouse 3	R A           WindowList
+
+# ... and for the title bar buttons:
+#
+Mouse 0	2 A           Menu Window-Ops Close
+#Mouse 0	2 A           Maximize
+#Mouse 0	4 A           Iconify
+
+# ... and other parts of the windows / borders / icons:
+#
+
+Mouse 1 A 4 Resize
+
+Mouse 1	FS A          Resize-or-Raise
+Mouse 1	T A           Move-or-Raise
+Mouse 1	I A           Move-or-Iconify
+Mouse 2	I A           Iconify
+Mouse 2	FST A         Menu Window-Ops Nop
+Mouse 3	TSIF A        RaiseLower
+

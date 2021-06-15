@@ -1,0 +1,6 @@
+playerctl shuffle Toggle
+if [ "$(playerctl shuffle)" = "On" ]; then
+  fvwm-update-button shuffle Colorset 2
+else
+  fvwm-update-button shuffle Colorset 1
+fi

@@ -1,0 +1,16 @@
+# fvwm
+cp -rT ~/.fvwm ./.fvwm
+
+# cmus
+mkdir -p .config/cmus
+cp ~/.config/cmus/*.theme  .config/cmus/
+cp ~/.config/cmus/autosave .config/cmus/
+
+# .Xresources
+cp ~/.Xresources ./
+
+# fetch
+cp ~/fetch fetch
+
+# TODO: font patches/download links
+# TODO: bashrc/prompt

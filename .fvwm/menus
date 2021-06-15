@@ -1,0 +1,29 @@
+AddToMenu RootMenu "Root Menu" Title
++ "&Terminal"         Exec exec urxvt
++ "&Clock"            Exec exec xclock
++ ""                  Nop
++ "&Window Ops"       Popup Window-Ops
++ "&X11 Session"      Popup X11-Session
+
+# Move-Resize x y w h
+DestroyFunc Move-Resize
+AddToFunc Move-Resize
++ I Move $0 $1
++ I Resize $2 $3
++ I Raise
+
+AddToMenu Window-Ops
++ "&1 Left%icons/pos_left.png%"     Move-Resize 5p    5p   1067p 1025p
++ "&2 Top%icons/pos_top.png%"       Move-Resize 1113p 5p   770p 660p
++ "&3 Bottom%icons/pos_bottom.png%" Move-Resize 1113p 670p 770p 410p
++ ""                                Nop
++ "&4 Minimize%icons/minimize.png%" Iconify
++ "&5 Close%icons/close.png%"       Close
+
+AddToMenu X11-Session
++ "Re&fresh Screen"   Refresh
++ "&Restart WM"       Restart
++ ""                  Nop
++ "Exit to xterm"     Restart xterm
++ "Exit WM"           Quit
+

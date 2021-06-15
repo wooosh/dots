@@ -1,0 +1,64 @@
+XTerm*vt100.translations: #override \
+    Shift Ctrl <Key> C: copy-selection(CLIPBOARD) \n\
+    Shift Ctrl <Key> V: insert-selection(CLIPBOARD)
+
+URxvt.backgroundPixmap: /home/wooosh/Downloads/.pixmap.png;style=tiled
+URxvt.lineSpace: 0
+URxvt.internalBorder: 12
+URxvt.scrollBar: false
+URxvt.font: xft:azuki_font:pixelsize=17
+URxvt.boldFont: xft:azukifontBI:style=bold:pixelsize=17
+URxvt.intensityStyles: false
+
+!XTerm*vt100.scaleHeight: 1.45
+
+*termName: xterm-256color
+*internalBorder: 6
+!*faceName: xft:terminus:size=9
+
+! special
+*.foreground:   #222222
+*.background:   #dfddd7
+*.cursorColor:  #222222
+
+! black
+*.color0:       #eeeeee
+*.color8:       #eeeeee
+!*.color0:       #f2e4df
+!*.color8:       #f2e4df
+
+! red
+*.color1:       #640000
+*.color9:       #FDCFB1
+
+! green
+*.color2:       #005F00
+*.color10:      #E1EEB8
+
+! yellow
+*.color3:       #717100
+*.color11:      #FFFEC4
+
+! blue
+*.color4:       #000062
+*.color12:      #D6DDF7
+
+! magenta
+*.color5:       #710071
+*.color13:      #F1E3FC
+
+! cyan
+*.color6:       #007373
+*.color14:      #DBECF7
+
+! white
+*.color7:       #473131
+*.color15:      #473131
+
+! extra colors
+! duplicate foreground for cmus
+*.color16: #e5ece2
+
+! accent colors for fetch
+*.color17: #c6da83
+*.color18: #252724

@@ -1,0 +1,16 @@
+#/bin/sh
+# list of source numbers to mute
+mics="0 1"
+
+op=unmute
+
+for mic in $mics; do
+  if [ "$(pamixer --source "$mic" --get-mute)" != "true" ]; then
+    op=mute
+    break
+  fi
+done
+
+for mic in $mics; do
+  pamixer --source "$mic" "--$op"
+done

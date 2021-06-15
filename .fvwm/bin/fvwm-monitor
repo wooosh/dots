@@ -1,0 +1,62 @@
+#!/bin/bash
+# monitors song, volume, and mic mute state
+
+# list of pulseaudio sinks to count as microphones
+
+mics="0 1"
+# TODO: batch all commands into one
+
+# kill other instances
+script_name=${BASH_SOURCE[0]}
+for pid in $(pidof -x $script_name); do
+    if [ $pid != $$ ]; then
+        kill -9 $pid
+    fi 
+done
+
+while true; do
+  # audio
+  fvwm-update-button vol Title "$(pamixer --get-volume)%"
+  all_muted=true
+  for mic in $mics; do
+    if [ "$(pamixer --source "$mic" --get-mute)" != "true" ]; then
+      all_muted=false
+      break
+    fi
+  done
+
+  if [ "$all_muted" = "true" ]; then
+    fvwm-update-button micmute Colorset 2
+  else
+    fvwm-update-button micmute Colorset 1 
+  fi
+
+  # music player
+  if [ "$(playerctl status 2>&1)" != "No players found" ]; then
+    fvwm-update-button artistname Title "'$(playerctl metadata artist)'"
+    fvwm-update-button songname Title "'$(playerctl metadata title)'"
+    fvwm-update-button songtime Title "'$(playerctl position --format '{{ duration(position) }}') \- $(playerctl metadata --format '{{ duration(mpris:length) }}')'"
+
+    # update shuffle and loop status
+    if [ "$(playerctl shuffle)" = "On" ]; then
+      fvwm-update-button shuffle Colorset 2
+    else
+      fvwm-update-button shuffle Colorset 1
+    fi
+
+    if [ "$(playerctl loop)" = "Track" ]; then
+      fvwm-update-button loop Colorset 2
+    else
+      fvwm-update-button loop Colorset 1
+    fi
+
+  else
+    fvwm-update-button artistname Title "'No Song'"
+    fvwm-update-button songname Title "'Playing'"
+    fvwm-update-button songtime Title "'0:00 \- 0:00'"
+    fvwm-update-button shuffle Colorset 1
+    fvwm-update-button loop Colorset 1
+  fi
+
+  sleep 0.4
+done 

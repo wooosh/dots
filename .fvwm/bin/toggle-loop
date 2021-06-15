@@ -1,0 +1,7 @@
+if [ "$(playerctl loop)" = "Track" ]; then
+  playerctl loop None
+  fvwm-update-button loop Colorset 1
+else
+  playerctl loop Track
+  fvwm-update-button loop Colorset 2
+fi

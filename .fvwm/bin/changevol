@@ -1,0 +1,2 @@
+pactl -- set-sink-volume 0 $1%
+echo "SendToModule FvwmButtons ChangeButton vol Title $(pamixer --get-volume)%" | FvwmCommand -c

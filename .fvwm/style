@@ -1,0 +1,50 @@
+# colors
+# DFDDD7 - light bg
+# C6DA83 - highlight bg
+# 252724 - dark bg
+
+
+CleanupColorsets
+DefaultColorset 0
+Style * ColorSet 1
+Style * HilightColorset 1
+MenuStyle * MenuColorset 2
+
+# colorsets
+# 0 - window decor title
+# 1 - active workspace
+# 2 - light panel + menus
+ColorSet 0 fg #eee, bg \#252724
+ColorSet 1 fg #252724, bg \#c6da83
+ColorSet 2 fg #222222, bg #F9FAF4
+
+# window decor!
+Style * TitleAtLeft
+Style * !Handles
+#Style google-chrome !Title
+
+# titlebar
+DestroyDecor FvwmDecor
+AddToDecor FvwmDecor
++ TitleStyle RightJustified Height 32 -- Flat
+
++ BorderStyle -- Flat
+
++ ButtonStyle Reset
++ ButtonStyle All -- Flat
++ AddButtonStyle All (Pixmap icons/windowbutton.png -- Flat)
+#+ ButtonStyle All - Clear
+#+ ButtonStyle 1 Active 1 -- MwmDecorMenu
+
++ BorderStyle Flat
+
+Style * UseDecor FvwmDecor,\
+        Colorset 0, HilightColorset 0\
+        RightTitleRotatedCW\
+        !Handles, NoInset, BorderWidth 2
+
+DefaultFont "xft:azukifontBI:pixelsize=17"
+DestroyModuleConfig FvwmScript:*
+*FvwmScript: DefaultFont "xft:azukifontBI:pixelsize=17"
+*FvwmScript: DefaultColorset 1
+

@@ -1,0 +1,6 @@
+# ignore krita swapfiles
+**/*~
+
+# ignore temporary files
+**/FvwmCommand*
+**/.FvwmConsole-History*

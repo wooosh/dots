@@ -1,0 +1,88 @@
+
+###############################################################################
+#                                                                             #
+# Init & Restart Functions                                                    #
+#                                                                             #
+###############################################################################
+
+DestroyFunc StartFunction
+AddToFunc StartFunction
++ I Exec exec xrdb ~/.Xresources
+# kill the montior since we are restarting the command server
++ I Exec exec pkill fvwm-monitor
++ I Module FvwmCommandS
++ I Read binds
++ I Read menus
++ I Read style quiet
++ I Read panel
++ I Module FvwmEvent EventNewDesk
++ I Module FvwmButtons -g 120x30+5-5 WorkspacePanel
++ I Module FvwmButtons -g 350x30+135-5 MiscPanel
++ I Module FvwmButtons -g 610x30+495-5 NotifPanel
++ I Exec exec fvwm-monitor
+
+DestroyFunc InitFunction
+AddToFunc InitFunction
++ I Nop
+
+DestroyFunc RestartFunction
+AddToFunc RestartFunction
++ I Nop
+
+DestroyFunc SessionInitFunction
+AddToFunc SessionInitFunction
++ I Nop
+
+DestroyFunc SessionRestartFunction
+AddToFunc SessionRestartFunction
++ I Nop
+
+###############################################################################
+#                                                                             #
+# Custom Functions                                                            #
+#                                                                             #
+###############################################################################
+
+DestroyFunc Move-or-Raise
+AddToFunc Move-or-Raise
++ I Raise
++ M Move
+
+DestroyFunc Move-or-Iconify
+AddToFunc Move-or-Iconify
++ I Raise
++ M Move
++ D Iconify
+
+DestroyFunc Resize-or-Raise
+AddToFunc Resize-or-Raise
++ I Raise
++ M Resize
+
+###############################################################################
+#                                                                             #
+# Global Behavior Commands                                                    #
+#                                                                             #
+###############################################################################
+
+ClickTime 750
+DeskTopSize 1x6
+EdgeResistance 250
+EdgeScroll 0 0
+
+Emulate Mwm
+Style * EdgeMoveDelay 250
+Style * EdgeMoveResistance 10
+Style * ClickToFocus
+Style * FPLenient
+Style * TileCascadePlacement
+Style * !UsePPosition
+
+TitleStyle Centered Height 20
+
+Style Fvwm* BorderWidth 2
+Style Fvwm* CirculateSkip
+Style Fvwm* CirculateSkipIcon
+Style Fvwm* Sticky
+Style Fvwm* !Title
+Style Fvwm* WindowListSkip
