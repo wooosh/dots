@@ -26,7 +26,9 @@ URxvt.intensityStyles: false
 *.color8:      #473131
 
 ! red
-*.color1:       #640000
+!*.color1:       #640000
+!*.color1:       #7D303D
+*.color1:       #B02541
 *.color9:       #FDCFB1
 
 ! green
@@ -34,8 +36,7 @@ URxvt.intensityStyles: false
 *.color10:      #E1EEB8
 
 ! yellow
-!*.color3:       #e3b200
-*.color3:       #d1a402
+*.color3:       #D98E01
 *.color11:      #FFFEC4
 
 ! blue
@@ -43,11 +44,11 @@ URxvt.intensityStyles: false
 *.color12:      #D6DDF7
 
 ! magenta
-*.color5:       #710071
+*.color5:       #C63C5E
 *.color13:      #F1E3FC
 
 ! cyan
-*.color6:       #007373
+*.color6:       #009BAA
 *.color14:      #DBECF7
 
 ! white
