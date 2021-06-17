@@ -14,14 +14,16 @@ MenuStyle * MenuColorset 2
 # 0 - window decor title
 # 1 - active workspace
 # 2 - light panel + menus
+# 3 - focused window decor
 ColorSet 0 fg #eeeeee, bg #252724
 ColorSet 1 fg #252724, bg #c6da83
 ColorSet 2 fg #222222, bg #F9FAF4
+ColorSet 3 fg #eeeeee, bg #473131
 
 # window decor!
 Style * TitleAtLeft
 Style * !Handles
-#Style google-chrome !Title
+Style * RoundedCorners
 
 # titlebar
 DestroyDecor FvwmDecor

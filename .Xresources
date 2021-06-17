@@ -22,7 +22,7 @@ URxvt.intensityStyles: false
 *.cursorColor:  #222222
 
 ! black
-*.color0:       #473131
+*.color0:      #473131
 *.color8:      #473131
 
 ! red

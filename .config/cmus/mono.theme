@@ -28,7 +28,7 @@ set color_win_cur_sel_attr=bold
 
 set color_win_inactive_cur_sel_bg=lightyellow
 set color_win_inactive_cur_sel_fg=default
-set color_win_inactive_cur_sel_attr=bold
+set color_win_inactive_cur_sel_attr=default
 
 set color_win_sel_bg=lightyellow
 set color_win_sel_fg=default
