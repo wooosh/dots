@@ -2,7 +2,7 @@ XTerm*vt100.translations: #override \
     Shift Ctrl <Key> C: copy-selection(CLIPBOARD) \n\
     Shift Ctrl <Key> V: insert-selection(CLIPBOARD)
 
-URxvt.backgroundPixmap: /home/wooosh/Downloads/.pixmap.png;style=tiled
+URxvt.backgroundPixmap: /home/wooosh/.config/urxvtpixmap.png;style=tiled
 URxvt.lineSpace: 0
 URxvt.internalBorder: 12
 URxvt.scrollBar: false

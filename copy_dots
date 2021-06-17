@@ -8,6 +8,8 @@ cp ~/.config/cmus/autosave .config/cmus/
 
 # .Xresources
 cp ~/.Xresources ./
+mkdir -p .config
+cp ~/.config/urxvtpixmap.png .config/
 
 # fetch
 cp ~/fetch fetch
