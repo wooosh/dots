@@ -19,8 +19,8 @@ set color_cmdline_fg=default
 set color_error=lightred
 set color_separator=black
 
-set color_win_cur=red
-set color_win_cur_attr=bold|reverse
+set color_win_cur=black
+set color_win_cur_attr=bold
 
 set color_win_cur_sel_bg=lightyellow
 set color_win_cur_sel_fg=default
@@ -39,5 +39,4 @@ set color_win_inactive_sel_fg=default
 
 # not sure what these are (could look at man page but lazy :p)
 set color_win_dir=lightblue
-set color_win_cur=black
 set color_info=lightyellow

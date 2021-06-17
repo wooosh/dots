@@ -65,24 +65,14 @@ AddToFunc Resize-or-Raise
 #                                                                             #
 ###############################################################################
 
-ClickTime 750
 DeskTopSize 1x6
-EdgeResistance 250
-EdgeScroll 0 0
+# disable edge scrolling
+EdgeThickness 0
 
 Emulate Mwm
-Style * EdgeMoveDelay 250
-Style * EdgeMoveResistance 10
 Style * ClickToFocus
 Style * FPLenient
 Style * TileCascadePlacement
 Style * !UsePPosition
 
-TitleStyle Centered Height 20
 
-Style Fvwm* BorderWidth 2
-Style Fvwm* CirculateSkip
-Style Fvwm* CirculateSkipIcon
-Style Fvwm* Sticky
-Style Fvwm* !Title
-Style Fvwm* WindowListSkip

@@ -19,7 +19,7 @@ Key T A CM            Exec exec x-terminal-emulator || xterm
 
 Key S A 4S Exec scrot
 Key R A 4S Restart
-Key Tab A 4 Menu Window-Ops Minimize
+Key D A 4 Menu Window-Ops Minimize
 
 # Simple default mouse bindings for the root window:
 #
@@ -29,7 +29,7 @@ Mouse 3	R A           WindowList
 
 # ... and for the title bar buttons:
 #
-Mouse 0	2 A           Menu Window-Ops Close
+Mouse 0	2 A           Menu Window-Ops Nop
 #Mouse 0	2 A           Maximize
 #Mouse 0	4 A           Iconify
 

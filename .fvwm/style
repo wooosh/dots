@@ -14,8 +14,8 @@ MenuStyle * MenuColorset 2
 # 0 - window decor title
 # 1 - active workspace
 # 2 - light panel + menus
-ColorSet 0 fg #eee, bg \#252724
-ColorSet 1 fg #252724, bg \#c6da83
+ColorSet 0 fg #eeeeee, bg #252724
+ColorSet 1 fg #252724, bg #c6da83
 ColorSet 2 fg #222222, bg #F9FAF4
 
 # window decor!
@@ -33,8 +33,6 @@ AddToDecor FvwmDecor
 + ButtonStyle Reset
 + ButtonStyle All -- Flat
 + AddButtonStyle All (Pixmap icons/windowbutton.png -- Flat)
-#+ ButtonStyle All - Clear
-#+ ButtonStyle 1 Active 1 -- MwmDecorMenu
 
 + BorderStyle Flat
 
@@ -48,3 +46,9 @@ DestroyModuleConfig FvwmScript:*
 *FvwmScript: DefaultFont "xft:azukifontBI:pixelsize=17"
 *FvwmScript: DefaultColorset 1
 
+Style Fvwm* BorderWidth 2
+Style Fvwm* CirculateSkip
+Style Fvwm* CirculateSkipIcon
+Style Fvwm* Sticky
+Style Fvwm* !Title
+Style Fvwm* WindowListSkip

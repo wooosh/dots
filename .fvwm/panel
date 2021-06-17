@@ -34,65 +34,21 @@ Style NotifPanel NoHandles
 *NotifPanel: Font "xft:azukifontBI:pixelsize=17"
 *NotifPanel: (1x1, Title (Left) " 1 New Notification | discord ping: nixhub")
 
-
-#
-# Music Panel
-#
-DestroyModuleConfig MusicPanel:*
-Style MusicPanel NoHandles
-*MusicPanel: Columns 6
-*MusicPanel: Rows 5
-*MusicPanel: Colorset 1
-*MusicPanel: (6x1, Id artistname, Title "No Song", Frame 0)
-*MusicPanel: (6x1, Id songname, Title "Playing", Frame 0)
-*MusicPanel: (6x1, Id songtime, Title "0:00 \- 0:00", Frame 0)
-*MusicPanel: (2x1, Title Prev,\
-  Action (Mouse 1) "Exec exec playerctl previous")
-*MusicPanel: (2x1, Title Pause,\
-  Action (Mouse 1) "Exec exec playerctl play-pause")
-*MusicPanel: (2x1, Title Next,\
-  Action (Mouse 1) "Exec exec playerctl next")
-*MusicPanel: (3x1, Id shuffle, Title Shuffle,\
-  Action (Mouse 1) "Exec exec toggle-shuffle")
-*MusicPanel: (3x1, Id loop, Title Loop,\
-  Action (Mouse 1) "Exec exec toggle-loop")
-
-#
-# Audio Panel
-#
-DestroyModuleConfig AudioPanel:*
-Style AudioPanel NoHandles
-*AudioPanel: Columns 4
-*AudioPanel: Rows 2
-*AudioPanel: Colorset 1 
-*AudioPanel: (1x1, Id vol, Title 95%, Frame 0)
-*AudioPanel: (1x1, Title X)
-*AudioPanel: (1x1, Title --,\
-  Action (Mouse 1) "Exec exec changevol -2")
-*AudioPanel: (1x1, Title ++,\
-  Action (Mouse 1) "Exec exec changevol +2")
-*AudioPanel: (2x1, id micmute Title "Mic Mute",\
-  Action (Mouse 1) "Exec exec micmute")
-*AudioPanel: (2x1, Title Mixer,\
-  Action (Mouse 1) "Exec exec pavucontrol")
-
-
 # 
 # Workspace Panel
 #
-# TODO: can likely refactor this by appling multiple rules to all elements
 DestroyModuleConfig WorkspacePanel:*
 Style WorkspacePanel NoHandles
 *WorkspacePanel: Columns 4
 *WorkspacePanel: Rows 1
 *WorkspacePanel: Font "xft:azukifontBI:pixelsize=17"
-*WorkspacePanel: (1x1, Id desk0, Title "0", Action (Mouse 1) GotoDesk 0 0, \
+*WorkspacePanel: (1x1, Id desk0, Title "1", Action (Mouse 1) GotoDesk 0 0, \
               ActiveColorset 1, Colorset 1, Frame 0)
-*WorkspacePanel: (1x1, Id desk1, Title "1", Action (Mouse 1) GotoDesk 0 1, \
+*WorkspacePanel: (1x1, Id desk1, Title "2", Action (Mouse 1) GotoDesk 0 1, \
               ActiveColorset 1, Colorset 0, Frame 0)
-*WorkspacePanel: (1x1, Id desk2, Title "2", Action (Mouse 1) GotoDesk 0 2, \
+*WorkspacePanel: (1x1, Id desk2, Title "3", Action (Mouse 1) GotoDesk 0 2, \
               ActiveColorset 1, Colorset 0, Frame 0)
-*WorkspacePanel: (1x1, Id desk3, Title "3", Action (Mouse 1) GotoDesk 0 3, \
+*WorkspacePanel: (1x1, Id desk3, Title "4", Action (Mouse 1) GotoDesk 0 3, \
               ActiveColorset 1, Colorset 0, Frame 0)
 
 DestroyFunc ChangeDesk
@@ -106,65 +62,3 @@ AddToFunc   ChangeDesk
 DestroyModuleConfig EventNewDesk:*
 *EventNewDesk: PassID
 *EventNewDesk: new_desk ChangeDesk
-
-#
-# Date Panel
-#
-DestroyModuleConfig DatePanel:*
-Style DatePanel NoHandles
-*DatePanel: Columns 1
-*DatePanel: Rows 1
-*DatePanel: (1x1, Swallow DateTime 'Module FvwmScript datetime.script', Frame 0)
-
-#
-# Task Bar / FVWM Icon Man
-#
-
-DestroyMenu MenuIconOps
-AddToMenu   MenuIconOps
-+ "(De)Iconify"         Iconify
-+ "(Un)Maximize"        Maximize
-+ "(Un)Shade"           WindowShade
-+ "(Un)Sticky"		Stick
-+ "(No)TitleBar"	Pick (CirculateHit) ToggleTitle
-+ "Send To Desk"        Popup MenuSendToDesk
-+ "" Nop
-+ "Close"               Close
-+ "Destroy"             Destroy
-+ "" Nop
-+ "Raise"		Raise
-+ "Lower"		Lower
-+ "" Nop
-+ "StaysOnTop"          Pick (CirculateHit) Layer 0 6
-+ "StaysPut"            Pick (CirculateHit) Layer 0 4
-+ "StaysOnBottom"       Pick (CirculateHit) Layer 0 2
-+ "" Nop
-+ "Identify"            Module FvwmIdent
-
-DestroyFunc IconManClick
-AddToFunc   IconManClick
-+ I ThisWindow (Raised, !Shaded, !Iconic, CurrentPage) Iconify
-+ I TestRc (Match) Break
-+ I ThisWindow (!Raised) Raise
-+ I ThisWindow (Shaded) WindowShade
-+ I ThisWindow (Iconic) Iconify
-+ I ThisWindow (AcceptsFocus) FlipFocus
-
-DestroyModuleConfig FvwmIconMan:*
-Style FvwmIconMan NoHandles
-*FvwmIconMan: ManagerGeometry 1x0-5+5
-*FvwmIconMan: ButtonGeometry 120x30+490-5
-*FvwmIconMan: UseWinList true
-*FvwmIconMan: Colorset 1
-#*FvwmIconMan: FocusColorset 1
-#*FvwmIconMan: FocusAndSelectColorset 12
-#*FvwmIconMan: SelectColorset 12
-#*FvwmIconMan: IconAndSelectColorset 12
-*FvwmIconMan: ReliefThickness 1
-*FvwmIconMan: DrawIcons false
-*FvwmIconMan: Format "%t"
-*FvwmIconMan: Action Mouse 1 A sendcommand IconManClick
-*FvwmIconMan: Action Mouse 2 A sendcommand Nop
-*FvwmIconMan: Action Mouse 3 A sendcommand "Menu MenuIconOps"
-*FvwmIconMan: Resolution global
-*FvwmIconMan: Sort id

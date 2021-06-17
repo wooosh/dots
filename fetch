@@ -62,15 +62,15 @@ echo $g'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 xtermcontrol '--color17=#252724'
 xtermcontrol '--color18=#c6da83'
 
-a1="$(printf '\033[48;5;17;1m')$(f 0)"
+a1="$(printf '\033[48;5;17;1m')$(f 7)"
 a2="$(printf '\033[48;5;18;1m')"
 
 cat <<EOF
 │    accents     │   off-colors   │                                            │
 ├────────────────┼────────────────┤     uses azukifont from azukifont.com      │
-│ $a1    dark     $r  │ $(f 7)    brown     $r │                                            │
+│ $a1    dark     $r  │ $(f 0)    brown     $r │                                            │
 ├────────────────┼────────────────┤ notebook lines are using a tiled urxvt bg  │
-│ $a2    green    $r  │ $(b 0)    gray      $r │                                            │
+│ $a2    green    $r  │ $(b 7)    gray      $r │                                            │
 ├────────────────┴────────────────┤        fetch & rice made by wooosh         │
 │                                 │                                            │
 │     $(e 1)inspired by addy & tam$r      │     dotfiles @ github.com/wooosh/dots      │

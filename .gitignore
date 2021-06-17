@@ -1,5 +1,9 @@
-# ignore krita swapfiles
+# ignore krita swapfiles and autosaves
 **/*~
+**/*autosave.kra
+
+# ignore vim swapfiles
+**/*.swp
 
 # ignore temporary files
 **/FvwmCommand*

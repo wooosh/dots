@@ -22,10 +22,8 @@ URxvt.intensityStyles: false
 *.cursorColor:  #222222
 
 ! black
-*.color0:       #eeeeee
-*.color8:       #eeeeee
-!*.color0:       #f2e4df
-!*.color8:       #f2e4df
+*.color0:       #473131
+*.color8:      #473131
 
 ! red
 *.color1:       #640000
@@ -36,7 +34,8 @@ URxvt.intensityStyles: false
 *.color10:      #E1EEB8
 
 ! yellow
-*.color3:       #717100
+!*.color3:       #e3b200
+*.color3:       #d1a402
 *.color11:      #FFFEC4
 
 ! blue
@@ -52,8 +51,8 @@ URxvt.intensityStyles: false
 *.color14:      #DBECF7
 
 ! white
-*.color7:       #473131
-*.color15:      #473131
+*.color7:       #eeeeee
+*.color15:       #eeeeee
 
 ! extra colors
 ! duplicate foreground for cmus

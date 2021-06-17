@@ -12,13 +12,20 @@ AddToFunc Move-Resize
 + I Resize $2 $3
 + I Raise
 
+AddToMenu Workspaces
++ "Workspace &1"        Nop 
++ "Workspace &2"        Nop 
++ "Workspace &3"        Nop 
++ "Workspace &4"        Nop 
+
 AddToMenu Window-Ops
-+ "&1 Left%icons/pos_left.png%"     Move-Resize 5p    5p   1067p 1025p
-+ "&2 Top%icons/pos_top.png%"       Move-Resize 1113p 5p   770p 660p
-+ "&3 Bottom%icons/pos_bottom.png%" Move-Resize 1113p 670p 770p 410p
++ "&s Left%icons/pos_left.png%"     Move-Resize 5p    5p   1067p 1025p
++ "&e Top%icons/pos_top.png%"       Move-Resize 1113p 5p   770p 660p
++ "&d Bottom%icons/pos_bottom.png%" Move-Resize 1113p 670p 770p 410p
 + ""                                Nop
-+ "&4 Minimize%icons/minimize.png%" Iconify
-+ "&5 Close%icons/close.png%"       Close
++ "&a Move to Workspace%icons/workspaces.png%" Popup Workspaces Item 100 0
++ "&w Minimize%icons/minimize.png%" Iconify
++ "&q Close%icons/close.png%"       Close
 
 AddToMenu X11-Session
 + "Re&fresh Screen"   Refresh
