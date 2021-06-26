@@ -11,16 +11,44 @@ Style MiscPanel NoHandles
 *MiscPanel: (11x1, Id datetime, Title "13:42 Jun 15")
 *MiscPanel: (2x1, Title "|")
 *MiscPanel: (3x1, Title "85%")
-*MiscPanel: (3x1, Title "  ", Font "xft:NotoSans Nerd Font:pixelsize=17")
+
+*MiscPanel: (4x1, Icon "icons/battery/crosshatch/charging-battery3.png",\
+  Action (Mouse 1) "Menu PowerMenu Button5 0 -110m")
 *MiscPanel: (2x1, Title "|")
 # nf-mdi-volume_high
-*MiscPanel: (2x1, Title "墳", Font "xft:NotoSans Nerd Font:pixelsize=17")
+*MiscPanel: (2x1, Title "墳", Font "xft:NotoSans Nerd Font:pixelsize=17",\
+  Action (Mouse 1) "Menu VolumeMenu")
 # nf-fa-microphone_slash
 *MiscPanel: (2x1, Title "", Font "xft:NotoSans Nerd Font:pixelsize=17")
 # nf-mdi-wifi
-*MiscPanel: (2x1, Title "直", Font "xft:NotoSans Nerd Font:pixelsize=17")
+*MiscPanel: (2x1, Title "直", Font "xft:NotoSans Nerd Font:pixelsize=17",\
+  Action (Mouse 1) "Menu WifiMenu Button8 0 -110m")
 # nf-mdi-brightness_7
 *MiscPanel: (2x1, Title "", Font "xft:NotoSans Nerd Font:pixelsize=17")
+
+AddToMenu PowerMenu
+# TODO: make this actually work
++ "Governor"       Nop
++ "X Performance"  Nop
+# disable compositor, change governor to favor battery life
++ "  Battery Life" Nop
+
+AddToMenu VolumeMenu
++ "Audio Mixer..." Exec exec pavucontrol
+# i think these are broken, as they adjust the volume of the currently playing source
++ "Mute"           Nop #Exec exec pamixer --toggle-mute
++ "Volume Up"      Nop #Exec exec pamixer --increase 3
++ "Volume Down"    Nop #Exec exec pamixer --decrease 3
+
+DestroyFunc CreateWifiMenu
+AddToFunc CreateWifiMenu
++ I DestroyMenu recreate WifiMenu
++ I PipeRead 'wifi-menu'
+
+
+AddToMenu WifiMenu
++ DynamicPopupAction Function CreateWifiMenu
++ DynamicPopdownAction DestroyMenu recreate WifiMenu
 
 #
 # Notif panel

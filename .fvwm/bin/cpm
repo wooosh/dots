@@ -1,0 +1,389 @@
+#!/bin/sh
+# vim: set ai ts=4 et sw=4 tw=80:
+
+phi() {
+    >&2 printf "\033[33;1m-> \033[35;1m%s | %s\033[m %s\n" "$1" "$2" "$3"
+}
+
+usage() {
+    >&2 echo "cpm [i|r|l|C|u|U|s|S|I|F|f|c|h] [pkg]..."
+    phi i  "install" "install one or more packages"
+    phi r  "remove " "remove one or more packages"
+    phi l  "list   " "list installed packages"
+    phi C  "count  " "count installed packages"
+    phi u  "update " "update package lists"
+    phi U  "upgrade" "upgrade all packages"
+    phi s  "search " "search for a package"
+    phi S  "show   " "show information about a package"
+    phi I  "info   " "same as show"
+    phi F  "files  " "show file list of package"
+    phi f  "from   " "show package which owns a file"
+    phi c  "clean  " "clean up leftover files/caches/orphans"
+    phi h  "help   " "show this message"
+}
+
+pem() {
+    >&2 printf "\033[31;1merror:\033[m %s\n" "$1"
+}
+
+case "$1" in
+    i|install)
+        OP='install'
+        if [ $# -lt 2 ]; then
+            pem "$OP: no package(s) specified"
+            exit 1
+        fi
+        ;;
+    r|remove)
+        OP='remove'
+        if [ $# -lt 2 ]; then
+            pem "$OP: no package(s) specified"
+            exit 1
+        fi
+        ;;
+    l|list)
+        OP='list'
+        ;;
+    C|count)
+        OP='count'
+        ;;
+    u|update)
+        OP='update'
+        ;;
+    U|upgrade)
+        OP='upgrade'
+        ;;
+    s|search)
+        OP='search'
+        if [ $# -lt 2 ]; then
+            pem "$OP: please specify a package"
+            exit 1
+        fi
+        ;;
+    S|show|I|info)
+        OP='show'
+        if [ $# -lt 2 ]; then
+            pem "$OP: please specify a package"
+            exit 1
+        fi
+        ;;
+    F|files)
+        OP='files'
+        ;;
+    f|from)
+        OP='from'
+        ;;
+    c|clean)
+        OP='clean'
+        ;;
+    h|help)
+        usage
+        exit 0
+        ;;
+    "")
+        usage
+        exit 1
+        ;;
+    *)
+        pem "Unrecognized operation: $1"
+        exit 1
+        ;;
+esac
+shift
+
+# pipe to this to get a count instead of relying on wc -l
+tot() {
+    i=0
+    while read -r line; do
+        i=$((i + 1))
+    done
+    printf '%s\n' "$i"
+}
+
+# count the files in a directory (similar to ls -l | wc -l) or something
+# usage: fcount /path/to/dir/*
+fcount() {
+    if [ -e "$1" ]; then
+        printf '%s\n' "$#"
+    else
+        printf '%s\n' 0
+    fi
+}
+
+# list files in a directory (similar to ls -l)
+flist() {
+    if [ -d "$1" ]; then
+        cd "$1" && printf '%s\n' *
+    fi
+}
+
+# replacement for command -v which ignores aliases
+# this is useful for me, don't ask why
+has() {
+    case "$(command -v "$1" 2>/dev/null)" in
+        alias*|"") return 1
+    esac
+}
+
+# figure out which sudo command to use
+# this is somewhat based on how xtools does it (for xi, specifically)
+SUDO=
+if command -v sudo >/dev/null; then
+    SUDO=sudo
+elif command -v doas >/dev/null && [ -f /etc/doas.conf ]; then
+    SUDO=doas
+elif [ "$(whoami)" != root ]; then
+    SUDO='su root -c '\''"$@"'\'' -- -'
+fi
+
+_apk() {
+    case "$OP" in
+        install) $SUDO apk add "$@";;
+        remove)  $SUDO apk del "$@";;
+        list)    apk -vv info;;
+        count)   apk -vv info | tot;;
+        update)  $SUDO apk update;;
+        upgrade) $SUDO apk upgrade;;
+        search)  apk search -v "$@";;
+        show)    apk search "$@";;
+        from)    apk info --who-owns "$@";;
+        files)   apk info -L "$@";;
+        clean)   $SUDO apk cache clean;;
+    esac
+}
+
+_apt() {
+    case "$OP" in
+        install) $SUDO apt install "$@";;
+        remove)  $SUDO apt remove "$@";;
+        list)    apt list --installed;;
+        count)   dpkg-query -f '.\n' -W | tot;;
+        update)  $SUDO apt update;;
+        upgrade) $SUDO apt dist-upgrade;;
+        search)  apt search "$@";;
+        show)    apt show "$@";;
+        files)   dpkg -L "$@";;
+        from)    dpkg -S "$@";;
+        clean)   $SUDO apt autoremove;;
+    esac
+}
+
+_portage() {
+    case "$OP" in
+        install) $SUDO emerge -atv "$@";;
+        remove)  $SUDO emerge -avc "$@";;
+        list)
+            if has qlist; then
+                qlist -IRv
+            else
+                >&2 echo "Could not find qlist"
+                exit 1
+            fi
+            ;;
+        count)
+            if has eix; then
+                eix --world | tot
+            else
+                >&2 pem "Could not find eix"
+                exit 1
+            fi
+            ;;
+        update)  $SUDO emerge --sync;;
+        upgrade) $SUDO emerge -uDU --keep-going --with-bdeps=y @world;;
+        search)  emerge -s "$@";;
+        show)    emerge -s "$@";;
+        files)   qlist "$@";;
+        from)    qfile "$@";;
+        clean)   $SUDO emerge --depclean -v;;
+    esac
+}
+
+_dnf() {
+    case "$OP" in
+        install) $SUDO dnf install "$@";;
+        remove)  $SUDO dnf remove "$@";;
+        list)    dnf list --installed;;
+        count)   rpm -qa | tot;;
+        update)  $SUDO dnf check-update;;
+        upgrade) $SUDO dnf distro-sync;;
+        search)  dnf search "$@";;
+        show)    dnf info "$@";;
+        files)   dnf repoquery -l "$@";;
+        from)    dnf provides "$@";;
+        clean)   $SUDO dnf autoremove;;
+    esac
+}
+
+_pacman() {
+    case "$OP" in
+        install) $SUDO pacman -S "$@";;
+        remove)  $SUDO pacman -Rs "$@";;
+        list)    pacman -Q;;
+        count)   pacman -Q | tot;;
+        update)  $SUDO pacman -Sy;;
+        upgrade) $SUDO pacman -Syu;;
+        search)  pacman -Ss "$@";;
+        show)    pacman -Si "$@";;
+        files)   pacman -Ql "$@";;
+        from)    pacman -Qo "$@";;
+        clean)   $SUDO pacman -Rns $(pacman -Qtdq) && $SUDO pacman -Sc;;
+    esac
+}
+
+_urpmi() {
+    case "$OP" in
+        install) $SUDO urpmi "$@";;
+        remove)  $SUDO urpme "$@";;
+        list)    rpm -qa;;
+        count)   rpm -qa | tot;;
+        update)  $SUDO urpmi.update -a;;
+        upgrade) $SUDO urpmi --auto-update;;
+        search)  urpmq -Y "$@";;
+        show)    urpmq --summary "$@";;
+        files)   rpm -ql "$@";;
+        from)    rpm -qf "$@";;
+        clean)   $SUDO urpme --auto-orphans;;
+    esac
+}
+
+_macports() {
+    case "$OP" in
+        install) $SUDO port install -c "$@";;
+        remove)  $SUDO port uninstall --follow-dependencies "$@";;
+        list)    port installed;;
+        count)   port installed | tot;;
+        update)  $SUDO port sync;;
+        upgrade) $SUDO port selfupdate;;
+        search)  port search "$@";;
+        show)    port info "$@";;
+        files)   port contents "$@";;
+        from)    port provides "$@";;
+        clean)   $SUDO port reclaim;;
+    esac
+}
+
+_xbps() {
+    case "$OP" in
+        install) $SUDO xbps-install "$@";;
+        remove)  $SUDO xbps-remove -R "$@";;
+        list)    xbps-query -l;;
+        count)   xbps-query -l | tot;;
+        update)  $SUDO xbps-install -S;;
+        upgrade) $SUDO xbps-install -Su xbps && $SUDO xbps-install -u;;
+        search)  xbps-query -s "$@" --repository;;
+        show)    xbps-query -S "$@" --repository;;
+        files)   xbps-query -f "$1" --repository;;
+        from)    xbps-query -o "$1" --repository;;
+        clean)   $SUDO xbps-remove -ROo;;
+    esac
+}
+
+_slackpkg() {
+    case "$OP" in
+        install) $SUDO slackpkg install "$@";;
+        remove)  $SUDO slackpkg remove "$@";;
+        list)    flist /var/log/packages;;
+        count)   fcount /var/log/packages/*;;
+        update)  $SUDO slackpkg update gpg && slackpkg update;;
+        upgrade) $SUDO slackpkg upgrade-all;;
+        search)  slackpkg search "$@";;
+        show)    slackpkg info "$@";;
+        from)    slackpkg file-search "$@";;
+        files)   pem "unsupported because PM does not support it natively: see CONTRUBITING.md.";;
+        clean)   $SUDO slackpkg clean-system;;
+    esac
+}
+
+_zypper() {
+    case "$OP" in
+        install) $SUDO zypper install "$@";;
+        remove)  $SUDO zypper remove -u "$@";;
+        list)    rpm -qa;;
+        count)   rpm -qa | tot;;
+        update)  $SUDO zypper refresh;;
+        upgrade) $SUDO zypper update;;
+        search)  zypper search "$@";;
+        show)    zypper info "$@";;
+        files)   rpm -ql "$@";;
+        from)    zypper search -f "$@";;
+        clean)   pem "unsupported: this feature is functionally useless in this PM";;
+    esac
+}
+
+_guix() {
+    case "$OP" in
+        install) guix package --install "$@";;
+        remove)  guix package --remove "$@";;
+        list)    guix package --list-installed;;
+        count)   guix package --list-installed | tot;;
+        update)  guix pull;;
+        upgrade) guix upgrade --keep-going;;
+        search)  guix search "$@";;
+        show)    guix show "$@";;
+        f*)      pem "unsupported: this feature is functionally useless in this PM";;
+        clean)   guix gc --delete-generations;;
+    esac
+}
+
+_nix() {
+    case "$OP" in
+        install) nix-env -iA "$@";;
+        remove)  niv-env -e "$@";;
+        list)    nix-env -q "$@";;
+        count)   nix-env -q | tot;;
+        update)  nix-channel --update;;
+        upgrade) nix-env -u;;
+        search)  nix-env -qa "$@";;
+        show)    nix-env -qa --description "$@";;
+        f*)      pem "unsupported: this feature is functionally useless in this PM";;
+        clean)   nix-collect-garbage -d;;
+    esac
+}
+
+# Use pm=PKG_MANAGER cpm COMMAND to force a specific cpm function
+# ie.: pm=portage cpm list
+if [ "$pm" ] && has "_$pm"; then
+  "_$pm" "$@"
+elif has apk; then
+    # alpine/adelie
+    _apk "$@"
+elif has apt; then
+    # debian/ubuntu
+    _apt "$@"
+elif has emerge; then
+    # gentoo
+    _portage "$@"
+elif has dnf; then
+    # fedora
+    _dnf "$@"
+elif has pacman-key; then
+    # arch/manjaro
+    _pacman "$@"
+elif has urpmi; then
+    # mageia
+    _urpmi "$@"
+elif has port; then
+    # macos
+    _macports "$@"
+elif has xbps-install; then
+    # void
+    _xbps "$@"
+elif has slackpkg; then
+    # slackware
+    _slackpkg "$@"
+elif has zypper; then
+    # slackware
+    _zypper "$@"
+elif has nix; then
+    # global/nixos
+    _nix "$@"
+elif has guix; then
+    # local (non-system-wide) guix
+    _guix "$@"
+elif has brew; then
+    pem "Homebrew is not supported [wontfix]"
+    exit 1
+else
+    pem "No valid package manager detected."
+    exit 1
+fi

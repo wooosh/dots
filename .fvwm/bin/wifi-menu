@@ -1,0 +1,18 @@
+menu_item() {
+  echo "AddToMenu WifiMenu $@"
+}
+
+while read item; do menu_item "$item"; done << EOF
+  "Connected to $(iwgetid -r)" Nop
+  "" Nop
+  "Disconnect"     Exec exec wifi disconnect
+  "Add Network..." Nop
+  "" Nop
+  "Connect To" Nop
+EOF
+
+
+for network in ~/.wifi/*; do
+  network="$(basename $network)"
+  menu_item "'  $network' Exec exec 'wifi con $network'"
+done

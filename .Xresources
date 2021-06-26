@@ -18,7 +18,6 @@ URxvt.intensityStyles: false
 
 ! special
 *.foreground:   #222222
-*.background:   #dfddd7
 *.cursorColor:  #222222
 
 ! black

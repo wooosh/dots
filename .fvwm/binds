@@ -9,6 +9,11 @@ Key Down A CM         Scroll  100000 0
 Key Page_Up A CM      Scroll -100000 0
 Key Page_Down A CM    Scroll  100000 0
 
+# Volume keys
+Key XF86AudioRaiseVolume A A  Exec exec pactl set-sink-volume @DEFAULT_SINK@ +5000
+Key XF86AudioLowerVolume A A  Exec exec pactl set-sink-volume @DEFAULT_SINK@ -5000
+Key XF86AudioMute        A A  Exec exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
 # Ctrl+Alt program shortcuts
 #
 Key C A CM            Exec exec xclock

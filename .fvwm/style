@@ -34,7 +34,7 @@ AddToDecor FvwmDecor
 
 + ButtonStyle Reset
 + ButtonStyle All -- Flat
-+ AddButtonStyle All (Pixmap icons/windowbutton.png -- Flat)
+#+ AddButtonStyle All (Pixmap icons/windowbutton.png -- Flat)
 
 + BorderStyle Flat
 
