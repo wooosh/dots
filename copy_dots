@@ -1,6 +1,10 @@
 # fvwm
 cp -rT ~/.fvwm ./.fvwm
 
+# awesomewm
+mkdir -p .config/awesome
+cp -rT ~/.config/awesome .config/awesome
+
 # cmus
 mkdir -p .config/cmus
 cp ~/.config/cmus/*.theme  .config/cmus/
